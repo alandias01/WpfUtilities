@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Windows.Data;
 using System.Reflection;
 using System.Windows.Media.Imaging;
+using WpfUtilities.Collections;
 
 namespace WpfUtilities
 {

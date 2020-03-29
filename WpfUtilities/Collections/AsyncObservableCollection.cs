@@ -7,7 +7,7 @@ using System.Threading;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace WpfUtilities
+namespace WpfUtilities.Collections
 {
     public class AsyncObservableCollection<T> : ObservableCollection<T>
     {
