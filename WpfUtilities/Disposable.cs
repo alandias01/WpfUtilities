@@ -68,14 +68,14 @@ namespace WpfUtilities
         public void Dispose() { }
     }
 
-    public class DeriverdClassUsingDisposable : Disposable
+    public class DerivedClassUsingDisposable : Disposable
     {
         // Flag: Has Dispose already been called?
         private bool disposed = false;
 
         public DotNetWrapperAroundUnmanagedObject WrappedUnmanaged = new DotNetWrapperAroundUnmanagedObject();
 
-        public DeriverdClassUsingDisposable()
+        public DerivedClassUsingDisposable()
         {
             this.WrappedUnmanaged.Started += this.WrappedUnmanaged_Started;
         }
@@ -111,7 +111,7 @@ namespace WpfUtilities
         /// <summary>
         /// Finalizer
         /// </summary>
-        ~DeriverdClassUsingDisposable()
+        ~DerivedClassUsingDisposable()
         {
             this.Dispose(false);
         }
