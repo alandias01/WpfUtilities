@@ -120,6 +120,36 @@ namespace WpfUtilities
     /*******************GARBAGE COLLECTION  *******************/
 
     /* GC=Garbage collection or Collector
+    
+    A managed object is any object where the .net runtime manages the memory
+    GC does not allocate or release unmanaged memory like file handles
+    GC cannot reclaim unmanaged objects
+
+    Disposing is to free unmanaged resources, perform general cleanup, and to tell finalizer, if one is present, not to run
+    If you call dispose, then you tell GC not to run finalizer with GC.SuppressFinalize
+    Freeing the actual memory associated with a managed object is the job of the GC
+
+    If you have an unmanaged resource, you need to release these resources.
+    This can be done deterministically(you decide) or undeterministically(when the runtime decides)
+
+    To release the resource, you implement the dispose method, preferably using the dispose pattern
+    The garbage collector doesn't call the dipose method so you have to call it.
+    If you think there is a possibility of forgetting, a backup is to have a finalizer.  
+    The GC calls the finalizer if there is one.  You cannot call it.
+    Do not implement a finalizer unless there are unmanaged resources that need to be released
+    Having a finalizer means it gets added to the finalization queue
+    An empty finalizer just causes a needless loss of performance.
+
+    Implementing the Dispose pattern
+    It has 2 sections, release managed resources (dispose(true)) and release unmanaged resources
+    dispose(true)
+
+    If the method call comes from a finalizer (dispose(false)), only the code that frees unmanaged resources 
+    should execute. The implementer is responsible for ensuring the the false path doesn't interact with 
+    managed objects that may have been reclaimed. This is important because the order in which the garbage collector 
+    destroys managed objects during finalization is non-deterministic.
+
+    Pointers
     If you have objects that implement IDisposable, you should implement IDisposable
     Most of the time when an object has a close method, it calls dispose automatically
     You should unsubscribe from events in the dispose
@@ -129,8 +159,8 @@ namespace WpfUtilities
 
     System.Timers must be disposed since the .NET framework holds a reference to them and they wont be disposed so you must call dispose
 
-    Disposal differs from GC
-    Disposing releases resources so you dont have to wait for GC to do it    
+    Disposal vs GC
+    Disposing releases resources so you dont have to wait for GC to do it.  Deterministic
     Disposal releases file handles, locks, and OS resources while GC releases memory
         
     You never deallocate the array yourself. GC does it for you
