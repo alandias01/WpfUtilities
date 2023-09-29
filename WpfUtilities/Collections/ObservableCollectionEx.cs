@@ -3,11 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace WpfUtilities.Collections
 {
+
+    public class ObservableCollectionPro<T>:ObservableCollection<T>
+    {
+        private bool supressNotification = false;
+        public void AddRange(IEnumerable<T> items)
+        {
+            try
+            {
+                supressNotification = true;
+                foreach (var item in items)
+                {
+                    this.Add(item);
+                }
+                supressNotification = false;
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            if (supressNotification) return;
+            base.OnCollectionChanged(e);
+        }
+    }
+
     public class ObservableCollectionEx<T> : ObservableCollection<T>
     {
+        
         public ObservableCollectionEx() : base() { }
         public ObservableCollectionEx(List<T> l) : base(l) { }
         public ObservableCollectionEx(IEnumerable<T> l) : base(l) { }
